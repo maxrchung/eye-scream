@@ -442,7 +442,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1214848047032359520, guid: b775e612a08f2482897087a52bd038a2, type: 3}
       propertyPath: m_Name
-      value: SimpleRoom
+      value: Room1
       objectReference: {fileID: 0}
     - target: {fileID: 3811411861719831689, guid: b775e612a08f2482897087a52bd038a2, type: 3}
       propertyPath: m_LocalPosition.x
