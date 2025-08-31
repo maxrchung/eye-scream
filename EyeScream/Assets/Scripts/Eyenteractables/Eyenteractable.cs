@@ -10,15 +10,15 @@ public abstract class Eyenteractable : MonoBehaviour
     /// What color this interacting sheyet belongs to. This must match a
     /// player's color.
     /// </summary>
-    public string coleyer;
+    public string coleyer = "reyed";
 
     /// <summary>
     /// Whether the interacting sheyet should be interacted with.
     /// </summary>
-    public bool isEyenteractable;
+    public bool isEyenteractable = true;
 
     /// <summary>
     /// Implemented by the child for specific functionality
     /// </summary>
-    public abstract void Eyenteract();
+    public virtual void Eyenteract() { }
 }
