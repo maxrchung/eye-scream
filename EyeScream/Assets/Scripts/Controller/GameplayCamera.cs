@@ -47,10 +47,12 @@ namespace Controller
         public void ActivateInput(InputActions.PlayerActions actions)
         {
             actions.AddCallbacks(this);
+            character?.ActivateInput(actions);
         }
 
         public void CancelInput(InputActions.PlayerActions actions)
         {
+            character?.CancelInput(actions);
             actions.RemoveCallbacks(this);
             _wasGamepad = false;
         }
@@ -80,6 +82,10 @@ namespace Controller
             _gamepadVector = Vector2.zero;
 
             OnCameraMove(context.ReadValue<Vector2>());
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
         }
     }
 }
