@@ -5,42 +5,101 @@ using Config;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
+using Utils;
 
 namespace Controller
 {
     public class CameraLayoutController : MonoBehaviour
     {
-        private List<Camera> _cameras = new();
-        [CanBeNull] private Camera _activeCamera = null;
+        private struct SavedCamera
+        {
+            public Camera Cam;
+            public GameplayCamera Ctl;
+
+            public SavedCamera(Camera cam)
+            {
+                Cam = cam;
+                Ctl = cam.GetComponent<GameplayCamera>();
+            }
+        }
+
+        public float mouseSensitivity = 15f;
+        public float gamepadSensitivity = 50f;
+
+        private List<SavedCamera> _cameras = new();
+        private SavedCamera? _activeCamera = null;
 
         private bool InSingleMode => _activeCamera != null;
         private InputActions _inputActions;
-        private InputActions.UIActions _uiActions => _inputActions.UI;
-        private InputActions.PlayerActions _playerActions => _inputActions.Player;
+        private InputActions.UIActions UIActions => _inputActions.UI;
+        private InputActions.PlayerActions PlayerActions => _inputActions.Player;
+        private RenderUtils _ru;
 
-        public float mouseSensitivity = 80f;
-        public float gamepadSensitivity = 50f;
+        [Header("Border Colors")] //
+        public Color defaultBorderColor = Color.white;
 
-        void Start()
+        public Color borderColorPlayerRed = Color.red;
+        public Color borderColorPlayerGreen = Color.green;
+        public Color borderColorPlayerBlue = Color.blue;
+        public Color borderColorPlayerPurple = new(0.5f, 0f, 0.5f);
+
+        public Color GetPlayerColor(CameraPlayerNumber playerNumber)
+        {
+            switch (playerNumber)
+            {
+                case CameraPlayerNumber.RedPlayer:
+                    return borderColorPlayerRed;
+                case CameraPlayerNumber.GreenPlayer:
+                    return borderColorPlayerGreen;
+                case CameraPlayerNumber.BluePlayer:
+                    return borderColorPlayerBlue;
+                case CameraPlayerNumber.PurplePlayer:
+                    return borderColorPlayerPurple;
+                case CameraPlayerNumber.NoPlayer:
+                default:
+                    return defaultBorderColor;
+            }
+        }
+
+        private void Start()
         {
             _cameras = FindCameras();
             _inputActions = new InputActions();
             _inputActions.Enable();
+            _ru = new RenderUtils();
             LayoutAllGrid();
         }
 
-        void Update()
+        private void Update()
         {
-            if (InSingleMode)
+            UpdateSingleCamera();
+        }
+
+        private void UpdateSingleCamera()
+        {
+            if (!_activeCamera.HasValue) return;
+            if (PlayerActions.LookIndirect.IsPressed())
             {
+                _activeCamera.Value.Ctl.RotateCamera(
+                    PlayerActions.LookIndirect.ReadValue<Vector2>()
+                    * (0.01f * mouseSensitivity * -1f)
+                );
+            }
+            else if (PlayerActions.LookDirect.IsInProgress())
+            {
+                _activeCamera.Value.Ctl.RotateCamera(
+                    PlayerActions.LookDirect.ReadValue<Vector2>()
+                    * (Time.deltaTime * gamepadSensitivity)
+                );
             }
         }
 
-        private static List<Camera> FindCameras()
+        private static List<SavedCamera> FindCameras()
         {
             return FindObjectsByType<Camera>(FindObjectsSortMode.None)
-                .Where(x => x.TryGetComponent(out CameraController _))
-                .OrderBy(x => x.name).ToList();
+                .Where(x => x.TryGetComponent(out GameplayCamera _))
+                .OrderBy(x => x.name)
+                .Select(x => new SavedCamera(x)).ToList();
         }
 
 #if UNITY_EDITOR
@@ -59,7 +118,7 @@ namespace Controller
 
         private void LayoutSingle(Camera cam)
         {
-            _activeCamera = cam;
+            _activeCamera = new SavedCamera(cam);
             EditorLayoutSingle(_cameras, cam);
         }
 
@@ -70,47 +129,48 @@ namespace Controller
         }
 
 
-        private static void EditorLayoutSingle(List<Camera> cameras, Camera camera)
+        private static void EditorLayoutSingle(List<SavedCamera> cameras, Camera camera)
         {
             foreach (var cam in cameras)
             {
-                cam.enabled = false;
-                if (cam.TryGetComponent<CameraController>(out var controller))
-                    controller.enabled = false;
+                cam.Cam.enabled = false;
             }
 
             camera.enabled = true;
-            camera.GetComponent<CameraController>().enabled = true;
             camera.rect = new Rect(0, 0, 1, 1);
         }
 
-        private static void EditorLayoutGrid(List<Camera> cameras)
+        private static void EditorLayoutGrid(List<SavedCamera> cameras)
         {
             foreach (var cam in cameras)
             {
-                cam.enabled = true;
-                if (cam.TryGetComponent<CameraController>(out var controller))
-                    controller.enabled = false;
+                cam.Cam.enabled = true;
             }
 
             var cameraCount = cameras.Count;
             var columnCount = Mathf.CeilToInt(Mathf.Sqrt(cameraCount));
-            var rowCount = Mathf.CeilToInt((float)cameraCount / columnCount);
             var cameraWidth = 1f / columnCount;
-            var cameraHeight = 1f / rowCount;
 
             for (var i = 0; i < cameraCount; i++)
             {
                 var col = i % columnCount;
                 var row = i / columnCount;
                 var x = col * cameraWidth;
-                var y = 1f - (row + 1) * cameraHeight;
-                cameras[i].rect = new Rect(x, y, cameraWidth, cameraHeight);
+                var y = 1f - (row + 1) * cameraWidth;
+                cameras[i].Cam.rect = new Rect(x, y, cameraWidth, cameraWidth);
             }
         }
 
         private void OnGUI()
         {
+            if (InSingleMode) return;
+            foreach (var cam in _cameras)
+            {
+                _ru.DrawRectOutline(
+                    _ru.NormToScreen(cam.Cam.rect),
+                    GetPlayerColor(cam.Ctl.playerNumber),
+                    _ru.PercentToPixels(1));
+            }
         }
     }
 }
