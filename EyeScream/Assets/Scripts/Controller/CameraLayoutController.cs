@@ -5,6 +5,7 @@ using Config;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Utils;
 
 namespace Controller
@@ -130,6 +131,19 @@ namespace Controller
             EditorLayoutGrid(_cameras);
         }
 
+        private void CreateVolumeProfiles()
+        {
+        }
+
+        private void CreateColoredVolume(Color color, string tag)
+        {
+            var name = $"AutoGenVolumeProfile_{tag}";
+            var volume = new GameObject($"AutoGenVolumeObject_{tag}");
+            volume.tag = name;
+            var vp = volume.AddComponent<Volume>().profile;
+            volume.AddComponent<Volume>().profile = vp;
+        }
+
 
         private static void EditorLayoutSingle(List<SavedCamera> cameras, Camera camera)
         {
@@ -171,7 +185,7 @@ namespace Controller
                 var color = GetPlayerColor(cam.Ctl.playerNumber);
                 var screenRect = _ru.NormToScreen(cam.Cam.rect);
                 color.a = overlayOpacity;
-                _ru.DrawRect(screenRect, color);
+                //_ru.DrawRect(screenRect, color);
                 _ru.DrawRectOutline(
                     _ru.NormToScreen(cam.Cam.rect),
                     Color.darkGray,
