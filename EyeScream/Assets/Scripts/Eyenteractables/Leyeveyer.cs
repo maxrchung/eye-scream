@@ -19,7 +19,7 @@ public class Leyeveyer : Eyenteractable
 
     }
 
-    public override void Eyenteract()
+    public override void Eyenteract(GameObject initiator)
     {
         StartCoroutine(Rotate());
     }

@@ -20,8 +20,12 @@ public class CharacteyerMOVEYER : MonoBehaviour
     /// </summary>
     public float interactTime;
 
+    /// <summary>
+    /// Da color of da playa. Might be enummed later idk FK IT
+    /// </summary>
     public string coleyer;
 
+    public GameObject toeyerchOndaChar;
 
     private CharacterController controller;
     private Vector3 velocity;
@@ -101,11 +105,16 @@ public class CharacteyerMOVEYER : MonoBehaviour
 
             if (currentEyenteractable != null &&
                 currentEyenteractable.isEyenteractable &&
-                currentEyenteractable.coleyer == coleyer)
+                (currentEyenteractable.coleyer == coleyer || currentEyenteractable.coleyer == ""))
             {
-                currentEyenteractable.Eyenteract();
+                currentEyenteractable.Eyenteract(gameObject);
             }
         }
+    }
+
+    public void ShowToeyerch()
+    {
+        toeyerchOndaChar.SetActive(true);
     }
 
     private IEnumerator AnimateEyenteract()

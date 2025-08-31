@@ -14,7 +14,7 @@ public class MyButton : Eyenteractable
 
     }
 
-    public override void Eyenteract()
+    public override void Eyenteract(GameObject initiator)
     {
         Debug.Log("MyButton eyenteracted!!!");
     }

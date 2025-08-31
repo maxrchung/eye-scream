@@ -17,8 +17,11 @@ public abstract class Eyenteractable : MonoBehaviour
     /// </summary>
     public bool isEyenteractable = true;
 
+
     /// <summary>
     /// Implemented by the child for specific functionality
     /// </summary>
-    public virtual void Eyenteract() { }
+    /// <param name="initiator">The initiator passed in so the implementor can
+    /// use it if needed, e.g. equipment</param>
+    public virtual void Eyenteract(GameObject initiator) { }
 }
