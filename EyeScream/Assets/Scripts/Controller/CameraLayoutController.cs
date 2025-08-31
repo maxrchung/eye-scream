@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Config;
-using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.InputSystem;
 using Utils;
 
 namespace Controller
@@ -69,32 +68,41 @@ namespace Controller
             _cameras = FindCameras();
             _inputActions = new InputActions();
             _inputActions.Enable();
+            _inputActions.UI.Click.performed += OnClick;
+            _inputActions.UI.Back.performed += OnBack;
             _ru = new RenderUtils();
             LayoutAllGrid();
         }
 
-        private void Update()
+        private void OnDestroy()
         {
-            UpdateSingleCamera();
+            _inputActions.UI.Click.performed -= OnClick;
+            _inputActions.UI.Back.performed -= OnBack;
+            if (_activeCamera.HasValue)
+            {
+                PlayerActions.RemoveCallbacks(_activeCamera.Value.Ctl);
+                _activeCamera = null;
+            }
+
+            _inputActions.Disable();
         }
 
-        private void UpdateSingleCamera()
+        private void OnClick(InputAction.CallbackContext ctx)
         {
-            if (!_activeCamera.HasValue) return;
-            if (PlayerActions.LookIndirect.IsPressed())
+            if (InSingleMode) return;
+            var pos = UIActions.Point.ReadValue<Vector2>();
+            var normPos = new Vector2(pos.x / Screen.width, pos.y / Screen.height);
+            var clickedCamera = _cameras.FirstOrDefault(cam => cam.Cam.rect.Contains(normPos));
+            if (clickedCamera.Cam != null)
             {
-                _activeCamera.Value.Ctl.RotateCamera(
-                    PlayerActions.LookIndirect.ReadValue<Vector2>()
-                    * (0.01f * mouseSensitivity * -1f)
-                );
+                LayoutSingle(clickedCamera.Cam);
             }
-            else if (PlayerActions.LookDirect.IsInProgress())
-            {
-                _activeCamera.Value.Ctl.RotateCamera(
-                    PlayerActions.LookDirect.ReadValue<Vector2>()
-                    * (Time.deltaTime * gamepadSensitivity)
-                );
-            }
+        }
+
+        private void OnBack(InputAction.CallbackContext ctx)
+        {
+            if (!InSingleMode) return;
+            LayoutAllGrid();
         }
 
         private static List<SavedCamera> FindCameras()
@@ -122,28 +130,21 @@ namespace Controller
         private void LayoutSingle(Camera cam)
         {
             _activeCamera = new SavedCamera(cam);
+            PlayerActions.AddCallbacks(_activeCamera.Value.Ctl);
             EditorLayoutSingle(_cameras, cam);
         }
 
         private void LayoutAllGrid()
         {
-            _activeCamera = null;
+            if (_activeCamera.HasValue)
+            {
+                PlayerActions.RemoveCallbacks(_activeCamera.Value.Ctl);
+                _activeCamera.Value.Ctl.CancelInput();
+                _activeCamera = null;
+            }
+
             EditorLayoutGrid(_cameras);
         }
-
-        private void CreateVolumeProfiles()
-        {
-        }
-
-        private void CreateColoredVolume(Color color, string tag)
-        {
-            var name = $"AutoGenVolumeProfile_{tag}";
-            var volume = new GameObject($"AutoGenVolumeObject_{tag}");
-            volume.tag = name;
-            var vp = volume.AddComponent<Volume>().profile;
-            volume.AddComponent<Volume>().profile = vp;
-        }
-
 
         private static void EditorLayoutSingle(List<SavedCamera> cameras, Camera camera)
         {
