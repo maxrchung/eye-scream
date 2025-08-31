@@ -108,38 +108,29 @@ namespace Controller
             _selectedCamera = hoveredCamera.Position;
         }
 
-        void InputActions.IUIActions.OnClick(InputAction.CallbackContext context)
+        public void OnScrollWheel(InputAction.CallbackContext context)
         {
-            OnClick(context);
+        }
+
+        void InputActions.IUIActions.OnSelect(InputAction.CallbackContext context)
+        {
+            if (InSingleMode) return;
+            var selectedCam = _cameras.FirstOrDefault(cam => cam.Position == _selectedCamera);
+            if (selectedCam is null)
+            {
+                Debug.LogWarning($"No camera found at position {_selectedCamera}");
+                return;
+            }
+            LayoutSingle(selectedCam);
         }
 
         public void OnRightClick(InputAction.CallbackContext context)
         {
         }
 
-        public void OnMiddleClick(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnScrollWheel(InputAction.CallbackContext context)
-        {
-        }
-
         void InputActions.IUIActions.OnBack(InputAction.CallbackContext context)
         {
             OnBack(context);
-        }
-
-        private void OnClick(InputAction.CallbackContext ctx)
-        {
-            if (InSingleMode) return;
-            var pos = UIActions.Point.ReadValue<Vector2>();
-            var normPos = new Vector2(pos.x / Screen.width, pos.y / Screen.height);
-            var clickedCamera = _cameras.FirstOrDefault(cam => cam.Cam.rect.Contains(normPos));
-            if (clickedCamera is not null)
-            {
-                LayoutSingle(clickedCamera.Cam);
-            }
         }
 
         private void OnBack(InputAction.CallbackContext ctx)
@@ -170,11 +161,11 @@ namespace Controller
         }
 #endif
 
-        private void LayoutSingle(Camera cam)
+        private void LayoutSingle(SavedCamera cam)
         {
-            _activeCamera = new SavedCamera(cam);
-            _activeCamera.Ctl.ActivateInput(PlayerActions);
-            EditorLayoutSingle(_cameras, cam);
+            _activeCamera = cam;
+            _activeCamera!.Ctl.ActivateInput(PlayerActions);
+            EditorLayoutSingle(_cameras, cam.Cam);
         }
 
         private void LayoutAllGrid()
