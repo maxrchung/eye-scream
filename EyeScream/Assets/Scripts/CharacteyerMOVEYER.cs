@@ -28,6 +28,7 @@ public class CharacteyerMOVEYER : MonoBehaviour
     private bool isGrounded;
     private bool isInteracting = false;
     private Vector2 moveInput;
+    private Eyenteractable currentEyenteractable;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -70,6 +71,22 @@ public class CharacteyerMOVEYER : MonoBehaviour
         animator.SetBool("isMoving", isMoving);
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        var eyenteractable = other.GetComponent<Eyenteractable>();
+        if (eyenteractable != null && eyenteractable.isEyenteractable)
+        {
+            currentEyenteractable = eyenteractable;
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Eyenteractable>() == currentEyenteractable)
+        {
+            currentEyenteractable = null;
+        }
+    }
+
     // New input system
     public void OnMoveye(InputAction.CallbackContext context)
     {
@@ -80,11 +97,18 @@ public class CharacteyerMOVEYER : MonoBehaviour
     {
         if (context.performed && !isInteracting) // only when button is pressed, not released
         {
-            StartCoroutine(Interact());
+            StartCoroutine(AnimateEyenteract());
+
+            if (currentEyenteractable != null &&
+                currentEyenteractable.isEyenteractable &&
+                currentEyenteractable.coleyer == coleyer)
+            {
+                currentEyenteractable.Eyenteract();
+            }
         }
     }
 
-    private IEnumerator Interact()
+    private IEnumerator AnimateEyenteract()
     {
         isInteracting = true;
         animator.SetTrigger("interact");
