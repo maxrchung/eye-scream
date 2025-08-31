@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Config;
@@ -32,7 +33,6 @@ namespace Controller
         {
             if (InSingleMode)
             {
-                
             }
         }
 
@@ -75,7 +75,8 @@ namespace Controller
             foreach (var cam in cameras)
             {
                 cam.enabled = false;
-                cam.GetComponent<CameraController>().enabled = false;
+                if (cam.TryGetComponent<CameraController>(out var controller))
+                    controller.enabled = false;
             }
 
             camera.enabled = true;
@@ -88,7 +89,8 @@ namespace Controller
             foreach (var cam in cameras)
             {
                 cam.enabled = true;
-                cam.GetComponent<CameraController>().enabled = false;
+                if (cam.TryGetComponent<CameraController>(out var controller))
+                    controller.enabled = false;
             }
 
             var cameraCount = cameras.Count;
@@ -105,6 +107,10 @@ namespace Controller
                 var y = 1f - (row + 1) * cameraHeight;
                 cameras[i].rect = new Rect(x, y, cameraWidth, cameraHeight);
             }
+        }
+
+        private void OnGUI()
+        {
         }
     }
 }
