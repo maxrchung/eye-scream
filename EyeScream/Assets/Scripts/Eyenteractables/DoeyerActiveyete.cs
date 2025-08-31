@@ -21,6 +21,8 @@ public class DoeyerActiveyete : Eyenteractable
         var characteyer = other.GetComponent<CharacteyerMOVEYER>();
         if (characteyer != null && characteyer.coleyer == coleyer)
         {
+            Debug.Log("Doeyer Activeyete !!!");
+
             doeyer.IncrementCount();
         }
     }
