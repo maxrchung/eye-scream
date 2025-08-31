@@ -44,8 +44,14 @@ namespace Controller
             }
         }
 
-        public void CancelInput()
+        public void ActivateInput(InputActions.PlayerActions actions)
         {
+            actions.AddCallbacks(this);
+        }
+
+        public void CancelInput(InputActions.PlayerActions actions)
+        {
+            actions.RemoveCallbacks(this);
             _wasGamepad = false;
         }
 
