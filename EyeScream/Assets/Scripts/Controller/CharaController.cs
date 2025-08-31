@@ -39,6 +39,14 @@ namespace Controller
                 _animator.SetTrigger(Interact);
         }
 
+        public void OnInteractCenter()
+        {
+        }
+        
+        public void OnInteractFinished()
+        {
+        }
+
         public void OnMove(InputAction.CallbackContext context)
         {
             if (context.performed)
