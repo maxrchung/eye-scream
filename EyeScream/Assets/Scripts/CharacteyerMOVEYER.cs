@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,11 +14,21 @@ public class CharacteyerMOVEYER : MonoBehaviour
     public float jumpHeight;
     public Animator animator; // your idle/walk/run animator
 
+    /// <summary>
+    /// How long in seconds to disable character during interaction I can't be
+    /// arsed to somehow figure out setting the event shit properly
+    /// </summary>
+    public float interactTime;
+
+    public string coleyer;
+
+
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
     private bool isInteracting = false;
     private Vector2 moveInput;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,7 +40,7 @@ public class CharacteyerMOVEYER : MonoBehaviour
     void Update()
     {
         // Don't do shiz if interacting
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("eyenteract"))
+        if (isInteracting)
         {
             return;
         }
@@ -69,7 +80,18 @@ public class CharacteyerMOVEYER : MonoBehaviour
     {
         if (context.performed && !isInteracting) // only when button is pressed, not released
         {
-            animator.SetTrigger("interact");
+            StartCoroutine(Interact());
         }
+    }
+
+    private IEnumerator Interact()
+    {
+        isInteracting = true;
+        animator.SetTrigger("interact");
+
+        // I hope this picks the rigth sheyet
+        yield return new WaitForSeconds(interactTime);
+
+        isInteracting = false;
     }
 }
