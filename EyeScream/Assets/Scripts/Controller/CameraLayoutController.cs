@@ -36,6 +36,8 @@ namespace Controller
         private RenderUtils _ru;
 
         [Header("Border Colors")] //
+        public float overlayOpacity = 0.15f;
+
         public Color defaultBorderColor = Color.white;
 
         public Color borderColorPlayerRed = Color.red;
@@ -166,9 +168,13 @@ namespace Controller
             if (InSingleMode) return;
             foreach (var cam in _cameras)
             {
+                var color = GetPlayerColor(cam.Ctl.playerNumber);
+                var screenRect = _ru.NormToScreen(cam.Cam.rect);
+                color.a = overlayOpacity;
+                _ru.DrawRect(screenRect, color);
                 _ru.DrawRectOutline(
                     _ru.NormToScreen(cam.Cam.rect),
-                    GetPlayerColor(cam.Ctl.playerNumber),
+                    Color.darkGray,
                     _ru.PercentToPixels(1));
             }
         }

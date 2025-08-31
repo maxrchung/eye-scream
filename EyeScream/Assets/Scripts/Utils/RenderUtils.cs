@@ -16,6 +16,14 @@ namespace Utils
 
         public int PercentToPixels(float percent) => Math.Min(Mathf.RoundToInt(percent / 100 * Screen.width), 1);
 
+        public void DrawRect(Rect rect, Color color)
+        {
+            var oldColor = GUI.color;
+            GUI.color = color;
+            GUI.DrawTexture(rect, _whiteTexture);
+            GUI.color = oldColor;
+        }
+
         public void DrawRectOutline(Rect position, Color color, int thickness = 1, int margin = 0)
         {
             position.xMin += margin;
