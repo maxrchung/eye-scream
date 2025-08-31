@@ -10,6 +10,7 @@ namespace Controller
     {
         private static readonly int Interact = Animator.StringToHash("interact");
         private static readonly int IsMoving = Animator.StringToHash("isMoving");
+        private static readonly int IsInteracting = Animator.StringToHash("isInteracting");
         private Animator _animator;
 
         private void Start()
@@ -34,7 +35,7 @@ namespace Controller
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.performed && !_animator.GetBool(IsInteracting))
                 _animator.SetTrigger(Interact);
         }
 
