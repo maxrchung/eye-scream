@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 7f25ec08f3e07eb2f8b02685e09aa633
+=======
+guid: 058a8f61b43e525498c380c52c19693a
+>>>>>>> refs/remotes/origin/staging
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
