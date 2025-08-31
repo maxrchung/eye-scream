@@ -5,17 +5,18 @@ using Config;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.InputSystem;
 using Utils;
 
 namespace Controller
 {
-    public class CameraLayoutController : MonoBehaviour
+    public class CameraLayoutController : MonoBehaviour, InputActions.IUIActions
     {
-        private struct SavedCamera
+        private class SavedCamera
         {
             public Camera Cam;
             public GameplayCamera Ctl;
+            public Vector2Int Position;
 
             public SavedCamera(Camera cam)
             {
@@ -28,7 +29,9 @@ namespace Controller
         public float gamepadSensitivity = 50f;
 
         private List<SavedCamera> _cameras = new();
-        private SavedCamera? _activeCamera = null;
+        [CanBeNull] private SavedCamera _activeCamera;
+        private int _rowCount = 0;
+        private Vector2Int _selectedCamera = Vector2Int.zero;
 
         private bool InSingleMode => _activeCamera != null;
         private InputActions _inputActions;
@@ -67,34 +70,73 @@ namespace Controller
         private void Start()
         {
             _cameras = FindCameras();
+            _rowCount = Mathf.CeilToInt(Mathf.Sqrt(_cameras.Count));
             _inputActions = new InputActions();
+            _inputActions.UI.AddCallbacks(this);
             _inputActions.Enable();
             _ru = new RenderUtils();
             LayoutAllGrid();
         }
 
-        private void Update()
+        private void OnDestroy()
         {
-            UpdateSingleCamera();
+            if (_activeCamera is not null)
+            {
+                PlayerActions.RemoveCallbacks(_activeCamera.Ctl);
+                _activeCamera = null;
+            }
+
+            _inputActions.UI.RemoveCallbacks(this);
+            _inputActions.Disable();
         }
 
-        private void UpdateSingleCamera()
+        public void OnNavigate(InputAction.CallbackContext context)
         {
-            if (!_activeCamera.HasValue) return;
-            if (PlayerActions.LookIndirect.IsPressed())
+            if (InSingleMode) return;
+            var nav = context.ReadValue<Vector2>();
+            if (nav == Vector2.zero) return;
+            _selectedCamera += new Vector2Int(-(int)nav.y, (int)nav.x);
+            _selectedCamera.Clamp(Vector2Int.zero, new Vector2Int(_rowCount - 1, _rowCount - 1));
+        }
+
+        public void OnPoint(InputAction.CallbackContext context)
+        {
+            var pos = context.ReadValue<Vector2>();
+            var posNorm = new Vector2(pos.x / Screen.width, pos.y / Screen.height);
+            var hoveredCamera = _cameras.FirstOrDefault(x => x.Cam.rect.Contains(posNorm));
+            if (hoveredCamera is null) return;
+            _selectedCamera = hoveredCamera.Position;
+        }
+
+        public void OnScrollWheel(InputAction.CallbackContext context)
+        {
+        }
+
+        void InputActions.IUIActions.OnSelect(InputAction.CallbackContext context)
+        {
+            if (InSingleMode) return;
+            var selectedCam = _cameras.FirstOrDefault(cam => cam.Position == _selectedCamera);
+            if (selectedCam is null)
             {
-                _activeCamera.Value.Ctl.RotateCamera(
-                    PlayerActions.LookIndirect.ReadValue<Vector2>()
-                    * (0.01f * mouseSensitivity * -1f)
-                );
+                Debug.LogWarning($"No camera found at position {_selectedCamera}");
+                return;
             }
-            else if (PlayerActions.LookDirect.IsInProgress())
-            {
-                _activeCamera.Value.Ctl.RotateCamera(
-                    PlayerActions.LookDirect.ReadValue<Vector2>()
-                    * (Time.deltaTime * gamepadSensitivity)
-                );
-            }
+            LayoutSingle(selectedCam);
+        }
+
+        public void OnRightClick(InputAction.CallbackContext context)
+        {
+        }
+
+        void InputActions.IUIActions.OnBack(InputAction.CallbackContext context)
+        {
+            OnBack(context);
+        }
+
+        private void OnBack(InputAction.CallbackContext ctx)
+        {
+            if (!InSingleMode) return;
+            LayoutAllGrid();
         }
 
         private static List<SavedCamera> FindCameras()
@@ -119,31 +161,23 @@ namespace Controller
         }
 #endif
 
-        private void LayoutSingle(Camera cam)
+        private void LayoutSingle(SavedCamera cam)
         {
-            _activeCamera = new SavedCamera(cam);
-            EditorLayoutSingle(_cameras, cam);
+            _activeCamera = cam;
+            _activeCamera!.Ctl.ActivateInput(PlayerActions);
+            EditorLayoutSingle(_cameras, cam.Cam);
         }
 
         private void LayoutAllGrid()
         {
-            _activeCamera = null;
+            if (_activeCamera is not null)
+            {
+                _activeCamera.Ctl.CancelInput(PlayerActions);
+                _activeCamera = null;
+            }
+
             EditorLayoutGrid(_cameras);
         }
-
-        private void CreateVolumeProfiles()
-        {
-        }
-
-        private void CreateColoredVolume(Color color, string tag)
-        {
-            var name = $"AutoGenVolumeProfile_{tag}";
-            var volume = new GameObject($"AutoGenVolumeObject_{tag}");
-            volume.tag = name;
-            var vp = volume.AddComponent<Volume>().profile;
-            volume.AddComponent<Volume>().profile = vp;
-        }
-
 
         private static void EditorLayoutSingle(List<SavedCamera> cameras, Camera camera)
         {
@@ -173,7 +207,9 @@ namespace Controller
                 var row = i / columnCount;
                 var x = col * cameraWidth;
                 var y = 1f - (row + 1) * cameraWidth;
-                cameras[i].Cam.rect = new Rect(x, y, cameraWidth, cameraWidth);
+                var savedCamera = cameras[i];
+                savedCamera.Cam.rect = new Rect(x, y, cameraWidth, cameraWidth);
+                savedCamera.Position = new Vector2Int(row, col);
             }
         }
 
@@ -184,12 +220,15 @@ namespace Controller
             {
                 var color = GetPlayerColor(cam.Ctl.playerNumber);
                 var screenRect = _ru.NormToScreen(cam.Cam.rect);
-                color.a = overlayOpacity;
                 //_ru.DrawRect(screenRect, color);
+                color.a = overlayOpacity;
+                var borderColor = Color.gray1;
+                if (cam.Position == _selectedCamera)
+                    borderColor = Color.yellow;
                 _ru.DrawRectOutline(
-                    _ru.NormToScreen(cam.Cam.rect),
-                    Color.darkGray,
-                    _ru.PercentToPixels(1));
+                    screenRect,
+                    borderColor,
+                    _ru.PercentToPixels(2));
             }
         }
     }

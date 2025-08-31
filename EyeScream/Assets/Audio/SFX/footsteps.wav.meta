@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: 4b16a584ba2357ff09553b15c731b8ca
-=======
-guid: 329c141d30e80684c9cd965d55f6863d
->>>>>>> refs/remotes/origin/staging
 AudioImporter:
   externalObjects: {}
   serializedVersion: 8
