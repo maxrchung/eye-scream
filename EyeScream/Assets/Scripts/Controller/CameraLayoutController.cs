@@ -10,7 +10,7 @@ using Utils;
 
 namespace Controller
 {
-    public class CameraLayoutController : MonoBehaviour, InputActions.IUIActions
+    public class CameraLayoutController : MonoBehaviour, InputActions.IOverseerActions
     {
         private class SavedCamera
         {
@@ -72,7 +72,7 @@ namespace Controller
             _cameras = FindCameras();
             _rowCount = Mathf.CeilToInt(Mathf.Sqrt(_cameras.Count));
             _inputActions = new InputActions();
-            _inputActions.UI.AddCallbacks(this);
+            _inputActions.Overseer.AddCallbacks(this);
             _inputActions.Enable();
             _ru = new RenderUtils();
             LayoutAllGrid();
@@ -86,7 +86,7 @@ namespace Controller
                 _activeCamera = null;
             }
 
-            _inputActions.UI.RemoveCallbacks(this);
+            _inputActions.Overseer.RemoveCallbacks(this);
             _inputActions.Disable();
         }
 
@@ -112,7 +112,7 @@ namespace Controller
         {
         }
 
-        void InputActions.IUIActions.OnSelect(InputAction.CallbackContext context)
+        public void OnSelect(InputAction.CallbackContext context)
         {
             if (InSingleMode) return;
             var selectedCam = _cameras.FirstOrDefault(cam => cam.Position == _selectedCamera);
@@ -129,12 +129,7 @@ namespace Controller
         {
         }
 
-        void InputActions.IUIActions.OnBack(InputAction.CallbackContext context)
-        {
-            OnBack(context);
-        }
-
-        private void OnBack(InputAction.CallbackContext ctx)
+        public void OnBack(InputAction.CallbackContext ctx)
         {
             if (!InSingleMode) return;
             LayoutAllGrid();

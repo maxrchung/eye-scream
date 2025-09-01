@@ -25,13 +25,17 @@ public abstract class Eyenteractable : MonoBehaviour
     /// </summary>
     /// <param name="initiator">The initiator passed in so the implementor can
     /// use it if needed, e.g. equipment</param>
-    public virtual void Eyenteract(GameObject initiator) { }
+    public virtual void Eyenteract(GameObject initiator)
+    {
+    }
 
     /// <summary>
     /// Some interactions need to deactivate, for example if a player leaves a
     /// pressure plate, it deactivates the door counter.
     /// </summary>
-    public virtual void Uneyenteract() { }
+    public virtual void Uneyenteract()
+    {
+    }
 
 
     private Material overlay;
@@ -62,22 +66,14 @@ public abstract class Eyenteractable : MonoBehaviour
 
     protected void SetColor()
     {
-        if (coleyer == PlayerColor.Red)
+        overlay.color = coleyer switch
         {
-            overlay.color = Color.red;
-        }
-        else if (coleyer == PlayerColor.Green)
-        {
-            overlay.color = Color.green;
-        }
-        else if (coleyer == PlayerColor.Blue)
-        {
-            overlay.color = Color.blue;
-        }
-        else if (coleyer == PlayerColor.Purple)
-        {
-            overlay.color = Color.purple;
-        }
+            PlayerColor.Red => Color.red,
+            PlayerColor.Green => Color.green,
+            PlayerColor.Blue => Color.blue,
+            PlayerColor.Purple => Color.purple,
+            _ => Color.clear
+        };
     }
 
     protected void RemoveColor()

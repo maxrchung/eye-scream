@@ -41,26 +41,14 @@ namespace Controller
 
                 overlay = new Material(Shader.Find("Unlit/Color"));
 
-                if (color == PlayerColor.Red)
+                overlay.color = color switch
                 {
-                    overlay.color = Color.red;
-                }
-                else if (color == PlayerColor.Green)
-                {
-                    overlay.color = Color.green;
-                }
-                else if (color == PlayerColor.Blue)
-                {
-                    overlay.color = Color.blue;
-                }
-                else if (color == PlayerColor.Purple)
-                {
-                    overlay.color = Color.purple;
-                }
-                else
-                {
-                    overlay.color = Color.clear;
-                }
+                    PlayerColor.Red => Color.red,
+                    PlayerColor.Green => Color.green,
+                    PlayerColor.Blue => Color.blue,
+                    PlayerColor.Purple => Color.purple,
+                    _ => Color.clear
+                };
 
                 materials[1] = overlay;
                 renderer.materials = materials;
