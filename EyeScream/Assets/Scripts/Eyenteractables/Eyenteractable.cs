@@ -1,4 +1,5 @@
 using System;
+using Types;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +12,7 @@ public abstract class Eyenteractable : MonoBehaviour
     /// What color this interacting sheyet belongs to. This must match a
     /// player's color.
     /// </summary>
-    public string coleyer = "reyed";
+    public PlayerColor coleyer = PlayerColor.Any;
 
     /// <summary>
     /// Whether the interacting sheyet should be interacted with.
@@ -61,17 +62,21 @@ public abstract class Eyenteractable : MonoBehaviour
 
     protected void SetColor()
     {
-        if (coleyer == "reyed")
+        if (coleyer == PlayerColor.Red)
         {
             overlay.color = Color.red;
         }
-        else if (coleyer == "blueye")
+        else if (coleyer == PlayerColor.Green)
+        {
+            overlay.color = Color.green;
+        }
+        else if (coleyer == PlayerColor.Blue)
         {
             overlay.color = Color.blue;
         }
-        else if (coleyer == "yeyellow")
+        else if (coleyer == PlayerColor.Purple)
         {
-            overlay.color = Color.yellow;
+            overlay.color = Color.purple;
         }
     }
 
