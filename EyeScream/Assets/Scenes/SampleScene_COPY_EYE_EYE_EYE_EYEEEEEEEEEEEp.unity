@@ -137,15 +137,15 @@ PrefabInstance:
       objectReference: {fileID: 1365666373}
     - target: {fileID: 5428663940653757705, guid: a8d2f610ee51ec24bb180f31aa124f33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.39
+      value: 3.154
       objectReference: {fileID: 0}
     - target: {fileID: 5428663940653757705, guid: a8d2f610ee51ec24bb180f31aa124f33, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.24776238
+      value: 1.197
       objectReference: {fileID: 0}
     - target: {fileID: 5428663940653757705, guid: a8d2f610ee51ec24bb180f31aa124f33, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.77
+      value: 1.874
       objectReference: {fileID: 0}
     - target: {fileID: 5428663940653757705, guid: a8d2f610ee51ec24bb180f31aa124f33, type: 3}
       propertyPath: m_LocalRotation.w
@@ -826,34 +826,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2869784028985320870, guid: fd3fc63657bb14247a457c831818d91b, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2529135922034992436, guid: fd3fc63657bb14247a457c831818d91b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1365666373}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd3fc63657bb14247a457c831818d91b, type: 3}
---- !u!1 &1365666372 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2529135922034992436, guid: fd3fc63657bb14247a457c831818d91b, type: 3}
+--- !u!114 &1365666373 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7642444829637939819, guid: fd3fc63657bb14247a457c831818d91b, type: 3}
   m_PrefabInstance: {fileID: 1365666371}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1365666373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365666372}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3c4323a6397d3749a212cc9fcf904f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  coleyer: 0
-  isEyenteractable: 0
 --- !u!1 &1435543472
 GameObject:
   m_ObjectHideFlags: 0
