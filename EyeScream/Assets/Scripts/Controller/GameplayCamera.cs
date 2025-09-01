@@ -112,7 +112,7 @@ namespace Controller
             var zoomFactor = cam.fieldOfView / 60.0f;
             _pitch -= input.y * zoomFactor;
             _yaw += input.x * zoomFactor;
-            _pitch = Mathf.Clamp(_pitch, 25f, 60f);
+            _pitch = Mathf.Clamp(_pitch, 0f, 60f);
             _yaw = Mathf.Clamp(_yaw, _minYaw, _minYaw + 50f);
             transform.eulerAngles = new Vector3(_pitch, _yaw, 0.0f);
         }
