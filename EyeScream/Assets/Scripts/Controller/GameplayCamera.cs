@@ -47,7 +47,7 @@ namespace Controller
         public void ActivateInput(InputActions.PlayerActions actions)
         {
             actions.AddCallbacks(this);
-            character?.ActivateInput(actions);
+            character?.ActivateInput(actions, gameObject);
         }
 
         public void CancelInput(InputActions.PlayerActions actions)
