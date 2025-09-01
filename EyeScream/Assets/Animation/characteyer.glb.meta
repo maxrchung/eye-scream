@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b51d5392cd7e1cc4086a7db96568bc81
+guid: 30fde401d5c0a49c4800ed493211e4d7
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -40,7 +40,6 @@ ScriptedImporter:
     <b>Version:
     </b>2.0
 
-    
 
     <b>Extras: </b>
 
@@ -48,18 +47,21 @@ ScriptedImporter:
   optimizeGameObjects: 0
   materials:
   - {instanceID: 0}
-  textures: []
+  textures:
+  - {instanceID: 0}
   hasSceneData: 1
   hasAnimationData: 1
-  hasMaterialData: 0
-  hasTextureData: 0
+  hasMaterialData: 1
+  hasTextureData: 1
   animations:
   - name: eyedle
   - name: eyenteract
   - name: runeye
-  - name: runeyend
   - name: runsteyert
   _extensions: []
-  _textures: []
+  _textures:
+  - texture: {instanceID: 0}
+    shouldBeLinear: 0
+    shouldBeNormalMap: 0
   _mainAssetIdentifier: scenes/Scene
   _importPlugins: []
