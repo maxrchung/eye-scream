@@ -8,8 +8,8 @@ public class DoeyerThatHasLocks : MonoBehaviour
     /// </summary>
     public GameObject[] locks;
 
-    public float riseHeight = 3f;      // how far up the door rises
-    public float riseSpeed = 2f;       // how fast it rises
+    public float riseHeight = 3f; // how far up the door rises
+    public float riseSpeed = 2f; // how fast it rises
     public float riseDuration = 1f;
 
 
@@ -18,7 +18,6 @@ public class DoeyerThatHasLocks : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -30,14 +29,15 @@ public class DoeyerThatHasLocks : MonoBehaviour
         }
 
         // Otherwise check how our locks are doing
-        foreach (var item in locks)
-        {
-            // As long if a lock is around, we can't use the chest
-            if (item.activeSelf)
+        if (locks != null)
+            foreach (var item in locks)
             {
-                return;
+                // As long if a lock is around, we can't use the chest
+                if (item.activeSelf)
+                {
+                    return;
+                }
             }
-        }
 
         isDone = true;
         StartCoroutine(MoveDoeyer());
