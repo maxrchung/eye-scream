@@ -8,11 +8,17 @@ public class CharacteyerMOVEYER : MonoBehaviour
     public float gravity;
 
     /// <summary>
+    /// Some inherent gravity so things always try to stick to the ground
+    /// </summary>
+    public float groundedGravity = -2f;
+
+    /// <summary>
     /// Degrees per second
     /// </summary>
     public float rotateSpeed;
     public float jumpHeight;
     public Animator animator; // your idle/walk/run animator
+
 
     /// <summary>
     /// How long in seconds to disable character during interaction I can't be
@@ -54,7 +60,7 @@ public class CharacteyerMOVEYER : MonoBehaviour
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = 0f; // reset downward velocity when grounded
+            velocity.y = groundedGravity; // reset downward velocity when grounded
         }
 
         // WASD / arrow input
