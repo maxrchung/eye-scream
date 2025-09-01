@@ -82,7 +82,7 @@ namespace Controller
         {
             if (_activeCamera is not null)
             {
-                PlayerActions.RemoveCallbacks(_activeCamera.Ctl);
+                _activeCamera.Ctl.CancelInput(_inputActions);
                 _activeCamera = null;
             }
 
@@ -121,6 +121,7 @@ namespace Controller
                 Debug.LogWarning($"No camera found at position {_selectedCamera}");
                 return;
             }
+
             LayoutSingle(selectedCam);
         }
 
@@ -164,7 +165,7 @@ namespace Controller
         private void LayoutSingle(SavedCamera cam)
         {
             _activeCamera = cam;
-            _activeCamera!.Ctl.ActivateInput(PlayerActions);
+            _activeCamera!.Ctl.ActivateInput(_inputActions);
             EditorLayoutSingle(_cameras, cam.Cam);
         }
 
@@ -172,7 +173,7 @@ namespace Controller
         {
             if (_activeCamera is not null)
             {
-                _activeCamera.Ctl.CancelInput(PlayerActions);
+                _activeCamera.Ctl.CancelInput(_inputActions);
                 _activeCamera = null;
             }
 

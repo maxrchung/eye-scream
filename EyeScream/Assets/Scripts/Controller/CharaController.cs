@@ -70,7 +70,7 @@ namespace Controller
         {
             _inputVector = Vector2.zero;
             actions.RemoveCallbacks(this);
-            _animator.SetBool(IsMoving, false);
+            _animator?.SetBool(IsMoving, false);
         }
 
         public bool HasToeyerch()
