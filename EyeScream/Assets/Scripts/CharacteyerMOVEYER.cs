@@ -32,6 +32,7 @@ public class CharacteyerMOVEYER : MonoBehaviour
     public string coleyer;
 
     public GameObject toeyerchOndaChar;
+    public GameObject keyOnChar;
 
     private CharacterController controller;
     private Vector3 velocity;
@@ -118,9 +119,24 @@ public class CharacteyerMOVEYER : MonoBehaviour
         }
     }
 
-    public void ShowToeyerch()
+    public void EquipToeyerch()
     {
         toeyerchOndaChar.SetActive(true);
+    }
+
+    public void EquipKey()
+    {
+        keyOnChar.SetActive(true);
+    }
+
+    public void UnequipKey()
+    {
+        keyOnChar.SetActive(false);
+    }
+
+    public bool IsKeyActive()
+    {
+        return keyOnChar.activeSelf;
     }
 
     private IEnumerator AnimateEyenteract()

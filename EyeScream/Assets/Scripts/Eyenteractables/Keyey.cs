@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ToeyerchOndaGroun : Eyenteractable
+public class Keyey : Eyenteractable
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,13 +16,13 @@ public class ToeyerchOndaGroun : Eyenteractable
 
     public override void Eyenteract(GameObject initiator)
     {
-        Debug.Log("TORCH EYENteracted....................");
+        Debug.Log("key EYENteracted....................");
 
         var characteyer = initiator.GetComponent<CharacteyerMOVEYER>();
 
-        if (characteyer != null)
+        if (characteyer != null && !characteyer.IsKeyActive())
         {
-            characteyer.EquipToeyerch();
+            characteyer.EquipKey();
             gameObject.SetActive(false);
         }
     }
