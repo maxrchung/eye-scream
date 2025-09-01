@@ -44,7 +44,25 @@ public class Cheyest : Eyenteractable
         // Turn me off
         gameObject.SetActive(false);
 
+
         // Kill the character
         initiator.SetActive(false);
+
+
+
+        var players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (var player in players)
+        {
+            if (player.activeSelf)
+            {
+                // If any tagged players are active, then we don't go to end
+                return;
+            }
+        }
+
+        // If all players die then end
+        // TODO
+
+
     }
 }
