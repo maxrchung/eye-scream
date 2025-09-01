@@ -221,7 +221,6 @@ namespace Controller
             {
                 var color = GetPlayerColor(cam.Ctl.playerNumber);
                 var screenRect = _ru.NormToScreen(cam.Cam.rect);
-                //_ru.DrawRect(screenRect, color);
                 color.a = overlayOpacity;
                 var borderColor = Color.gray1;
                 if (cam.Position == _selectedCamera)

@@ -78,16 +78,15 @@ namespace Controller
 
             // WASD / arrow input
             var move = transform.forward * _inputVector.y;
-
-            // Move the character
-            _controller.Move(move * (speed * Time.deltaTime));
+            if (!_animator.GetBool(IsInteracting))
+            {
+                _controller.Move(move * (speed * Time.deltaTime));
+                transform.Rotate(0f, _inputVector.x * 222 * Time.deltaTime, 0f);
+            }
 
             // Apply gravity
             _velocity.y += -9.81f * Time.deltaTime;
             _controller.Move(_velocity * Time.deltaTime);
-
-            // Rotation
-            transform.Rotate(0f, _inputVector.x * 222 * Time.deltaTime, 0f);
 
             if (move.magnitude > 0.1f)
             {
@@ -158,19 +157,18 @@ namespace Controller
         {
             if (context.performed && !_animator.GetBool(IsInteracting))
             {
-                if (currentEyenteractable != null &&
-                    currentEyenteractable.isEyenteractable &&
-                    (currentEyenteractable.coleyer == coleyer || currentEyenteractable.coleyer == ""))
-                {
-                    currentEyenteractable.Eyenteract(gameObject);
-                }
-
                 _animator.SetTrigger(Interact);
             }
         }
 
         public void OnInteractCenter()
         {
+            if (currentEyenteractable != null &&
+                currentEyenteractable.isEyenteractable &&
+                (currentEyenteractable.coleyer == coleyer || currentEyenteractable.coleyer == ""))
+            {
+                currentEyenteractable.Eyenteract(gameObject);
+            }
         }
 
         public void OnInteractFinished()
