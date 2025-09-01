@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Controller.CharaController
   speed: 5
-  coleyer: reyed
+  color: 5
   toeyerchOndaChar: {fileID: 4919915409697824388}
   keyOnChar: {fileID: 5473223096541067988}
 --- !u!1001 &1498145995888226980
@@ -83,6 +83,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1756359028294095075}
     m_Modifications:
+    - target: {fileID: 2183225335085614102, guid: 9bd1a533c03d5cf49aa8432521ba3e88, type: 3}
+      propertyPath: isEyenteractable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6704625901716065883, guid: 9bd1a533c03d5cf49aa8432521ba3e88, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -144,9 +148,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 2183225335085614102, guid: 9bd1a533c03d5cf49aa8432521ba3e88, type: 3}
     - {fileID: 953286674457564977, guid: 9bd1a533c03d5cf49aa8432521ba3e88, type: 3}
     - {fileID: 130477900199346945, guid: 9bd1a533c03d5cf49aa8432521ba3e88, type: 3}
+    - {fileID: 2183225335085614102, guid: 9bd1a533c03d5cf49aa8432521ba3e88, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -57,7 +57,7 @@ public abstract class Eyenteractable : MonoBehaviour
         }
     }
 
-    protected void SetColor()
+    public void SetColor()
     {
         var color = coleyer switch
         {
@@ -67,7 +67,7 @@ public abstract class Eyenteractable : MonoBehaviour
             PlayerColor.Purple => Color.purple,
             _ => Color.black
         };
-        overlay.SetColor("emissiveFactor", color * 0.2f);
+        overlay.SetColor("emissiveFactor", color * 0.3f);
     }
 
     protected void RemoveColor()

@@ -378,7 +378,7 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Value": 128
+    "m_Value": 600
 }
 
 {
@@ -1033,7 +1033,7 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Value": 256
+    "m_Value": 800
 }
 
 {
