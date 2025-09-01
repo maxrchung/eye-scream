@@ -1,6 +1,4 @@
-using System;
 using Config;
-using Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +7,11 @@ namespace Controller
     public class CharaController : MonoBehaviour, InputActions.IPlayerActions
     {
         public float speed = 5f;
+        public string coleyer = "reyed";
+        public GameObject toeyerchOndaChar;
+        public GameObject keyOnChar;
+        private Eyenteractable currentEyenteractable;
+
 
         private static readonly int Interact = Animator.StringToHash("interact");
         private static readonly int IsMoving = Animator.StringToHash("isMoving");
@@ -70,10 +73,56 @@ namespace Controller
             _animator.SetBool(IsMoving, false);
         }
 
+        public void EquipToeyerch()
+        {
+            toeyerchOndaChar.SetActive(true);
+        }
+
+        public void EquipKey()
+        {
+            keyOnChar.SetActive(true);
+        }
+
+        public void UnequipKey()
+        {
+            keyOnChar.SetActive(false);
+        }
+
+        public bool IsKeyActive()
+        {
+            return keyOnChar.activeSelf;
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            var eyenteractable = other.GetComponent<Eyenteractable>();
+            if (eyenteractable != null && eyenteractable.isEyenteractable)
+            {
+                currentEyenteractable = eyenteractable;
+            }
+        }
+
+        void OnTriggerExit(Collider other)
+        {
+            if (other.GetComponent<Eyenteractable>() == currentEyenteractable)
+            {
+                currentEyenteractable = null;
+            }
+        }
+
         public void OnInteract(InputAction.CallbackContext context)
         {
             if (context.performed && !_animator.GetBool(IsInteracting))
+            {
+                if (currentEyenteractable != null &&
+                    currentEyenteractable.isEyenteractable &&
+                    (currentEyenteractable.coleyer == coleyer || currentEyenteractable.coleyer == ""))
+                {
+                    currentEyenteractable.Eyenteract(gameObject);
+                }
+
                 _animator.SetTrigger(Interact);
+            }
         }
 
         public void OnInteractCenter()

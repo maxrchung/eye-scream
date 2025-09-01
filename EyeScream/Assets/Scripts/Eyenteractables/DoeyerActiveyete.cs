@@ -1,3 +1,4 @@
+using Controller;
 using UnityEngine;
 
 public class DoeyerActiveyete : Eyenteractable
@@ -18,7 +19,7 @@ public class DoeyerActiveyete : Eyenteractable
 
     void OnTriggerEnter(Collider other)
     {
-        var characteyer = other.GetComponent<CharacteyerMOVEYER>();
+        var characteyer = other.GetComponent<CharaController>();
         if (characteyer != null && characteyer.coleyer == coleyer)
         {
             Debug.Log("Doeyer Activeyete !!!");
@@ -28,7 +29,7 @@ public class DoeyerActiveyete : Eyenteractable
     }
     void OnTriggerExit(Collider other)
     {
-        var characteyer = other.GetComponent<CharacteyerMOVEYER>();
+        var characteyer = other.GetComponent<CharaController>();
         if (characteyer != null && characteyer.coleyer == coleyer)
         {
             doeyer.DecrementCount();

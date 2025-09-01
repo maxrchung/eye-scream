@@ -1,3 +1,4 @@
+using Controller;
 using UnityEngine;
 
 public class Keyey : Eyenteractable
@@ -18,7 +19,7 @@ public class Keyey : Eyenteractable
     {
         Debug.Log("key EYENteracted....................");
 
-        var characteyer = initiator.GetComponent<CharacteyerMOVEYER>();
+        var characteyer = initiator.GetComponent<CharaController>();
 
         if (characteyer != null && !characteyer.IsKeyActive())
         {
