@@ -396,7 +396,8 @@ PrefabInstance:
       value: GreenCharacter
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6694848114429632160, guid: e634ab263eeeb4813991fbf3366e1d2f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e634ab263eeeb4813991fbf3366e1d2f, type: 3}
@@ -784,7 +785,8 @@ PrefabInstance:
       value: RedCharacter
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6694848114429632160, guid: e634ab263eeeb4813991fbf3366e1d2f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e634ab263eeeb4813991fbf3366e1d2f, type: 3}
