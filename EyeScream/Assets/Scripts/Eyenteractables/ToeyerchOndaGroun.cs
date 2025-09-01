@@ -1,3 +1,4 @@
+using Controller;
 using UnityEngine;
 
 public class ToeyerchOndaGroun : Eyenteractable
@@ -18,9 +19,9 @@ public class ToeyerchOndaGroun : Eyenteractable
     {
         Debug.Log("TORCH EYENteracted....................");
 
-        var characteyer = initiator.GetComponent<CharacteyerMOVEYER>();
+        var characteyer = initiator.GetComponent<CharaController>();
 
-        if (characteyer != null)
+        if (characteyer != null && !characteyer.HasToeyerch())
         {
             characteyer.EquipToeyerch();
             gameObject.SetActive(false);

@@ -21,9 +21,9 @@ public class Keyey : Eyenteractable
 
         var characteyer = initiator.GetComponent<CharaController>();
 
-        if (characteyer != null && !characteyer.IsKeyActive())
+        if (characteyer != null && !characteyer.HasKeyey())
         {
-            characteyer.EquipKey();
+            characteyer.EquipKeyey();
             gameObject.SetActive(false);
         }
     }

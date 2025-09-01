@@ -73,22 +73,27 @@ namespace Controller
             _animator.SetBool(IsMoving, false);
         }
 
+        public bool HasToeyerch()
+        {
+            return toeyerchOndaChar.activeSelf;
+        }
+
         public void EquipToeyerch()
         {
             toeyerchOndaChar.SetActive(true);
         }
 
-        public void EquipKey()
+        public void EquipKeyey()
         {
             keyOnChar.SetActive(true);
         }
 
-        public void UnequipKey()
+        public void UnequipKeyey()
         {
             keyOnChar.SetActive(false);
         }
 
-        public bool IsKeyActive()
+        public bool HasKeyey()
         {
             return keyOnChar.activeSelf;
         }

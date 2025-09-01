@@ -71,6 +71,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c1ae2ab9ac4cb28f1b4c221a7eec48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Controller.CharaController
+  speed: 5
+  coleyer: reyed
+  toeyerchOndaChar: {fileID: 0}
+  keyOnChar: {fileID: 0}
 --- !u!1001 &1907884163564112438
 PrefabInstance:
   m_ObjectHideFlags: 0
