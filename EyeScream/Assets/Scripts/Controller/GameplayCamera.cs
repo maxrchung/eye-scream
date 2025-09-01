@@ -24,12 +24,14 @@ namespace Controller
         public Color FogColor => _fogColor;
         private Color _originalFogColor;
         private bool _originalFogEnabled;
+        private float _minYaw;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Start()
         {
             _pitch = transform.eulerAngles.x;
             _yaw = transform.eulerAngles.y;
+            _minYaw = Mathf.Floor(_yaw / 90f) * 90f + 20f;
             cam = GetComponent<Camera>();
 
             if (character != null)
@@ -111,6 +113,7 @@ namespace Controller
             _pitch -= input.y * zoomFactor;
             _yaw += input.x * zoomFactor;
             _pitch = Mathf.Clamp(_pitch, 25f, 60f);
+            _yaw = Mathf.Clamp(_yaw, _minYaw, _minYaw + 50f);
             transform.eulerAngles = new Vector3(_pitch, _yaw, 0.0f);
         }
 
