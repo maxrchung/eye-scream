@@ -314,7 +314,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2
+  m_Radius: 3.68
   m_Center: {x: 0, y: 0.35, z: 0}
 --- !u!114 &2183225335085614102
 MonoBehaviour:
@@ -328,3 +328,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e51e3f636cd1d43bc31e2460dcf520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  coleyer: reyed
+  isEyenteractable: 1

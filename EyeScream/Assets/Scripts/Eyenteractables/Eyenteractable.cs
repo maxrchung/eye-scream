@@ -52,28 +52,28 @@ public abstract class Eyenteractable : MonoBehaviour
 
             overlay = new Material(Shader.Find("Unlit/Color"));
 
-            if (coleyer == "reyed")
-            {
-                overlay.color = Color.red;
-            }
-            else if (coleyer == "blueye")
-            {
-                overlay.color = Color.blue;
-            }
-            else if (coleyer == "yeyellow")
-            {
-                overlay.color = Color.yellow;
-            }
-            else
-            {
-                overlay.color = Color.clear;
-            }
+            SetColor();
 
             materials[1] = overlay;
             renderer.materials = materials;
         }
     }
 
+    protected void SetColor()
+    {
+        if (coleyer == "reyed")
+        {
+            overlay.color = Color.red;
+        }
+        else if (coleyer == "blueye")
+        {
+            overlay.color = Color.blue;
+        }
+        else if (coleyer == "yeyellow")
+        {
+            overlay.color = Color.yellow;
+        }
+    }
 
     protected void RemoveColor()
     {
