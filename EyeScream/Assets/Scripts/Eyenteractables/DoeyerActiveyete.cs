@@ -20,7 +20,7 @@ public class DoeyerActiveyete : Eyenteractable
     void OnTriggerEnter(Collider other)
     {
         var characteyer = other.GetComponent<CharaController>();
-        if (characteyer != null && characteyer.coleyer == coleyer)
+        if (characteyer != null && characteyer.color == coleyer)
         {
             Debug.Log("Doeyer Activeyete !!!");
 
@@ -30,7 +30,7 @@ public class DoeyerActiveyete : Eyenteractable
     void OnTriggerExit(Collider other)
     {
         var characteyer = other.GetComponent<CharaController>();
-        if (characteyer != null && characteyer.coleyer == coleyer)
+        if (characteyer != null && characteyer.color == coleyer)
         {
             doeyer.Uneyenteract();
         }

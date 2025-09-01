@@ -1,5 +1,6 @@
 using Config;
 using System;
+using Types;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +9,7 @@ namespace Controller
     public class CharaController : MonoBehaviour, InputActions.IPlayerActions
     {
         public float speed = 5f;
-        public string coleyer = "reyed";
+        public PlayerColor color = PlayerColor.None;
         public GameObject toeyerchOndaChar;
         public GameObject keyOnChar;
         private Eyenteractable currentEyenteractable;
@@ -40,17 +41,21 @@ namespace Controller
 
                 overlay = new Material(Shader.Find("Unlit/Color"));
 
-                if (coleyer == "reyed")
+                if (color == PlayerColor.Red)
                 {
                     overlay.color = Color.red;
                 }
-                else if (coleyer == "blueye")
+                else if (color == PlayerColor.Green)
+                {
+                    overlay.color = Color.green;
+                }
+                else if (color == PlayerColor.Blue)
                 {
                     overlay.color = Color.blue;
                 }
-                else if (coleyer == "yeyellow")
+                else if (color == PlayerColor.Purple)
                 {
-                    overlay.color = Color.yellow;
+                    overlay.color = Color.purple;
                 }
                 else
                 {
@@ -108,7 +113,8 @@ namespace Controller
         {
             _inputVector = Vector2.zero;
             actions.RemoveCallbacks(this);
-            _animator?.SetBool(IsMoving, false);
+            if (_animator != null)
+                _animator.SetBool(IsMoving, false);
         }
 
         public bool HasToeyerch()
@@ -139,7 +145,7 @@ namespace Controller
         void OnTriggerEnter(Collider other)
         {
             var eyenteractable = other.GetComponent<Eyenteractable>();
-            if (eyenteractable != null && eyenteractable.isEyenteractable)
+            if (CanEyenteract(eyenteractable))
             {
                 currentEyenteractable = eyenteractable;
             }
@@ -153,9 +159,17 @@ namespace Controller
             }
         }
 
+        public bool CanEyenteract(Eyenteractable what)
+        {
+            return what != null && what.isEyenteractable &&
+                   (what.coleyer == color || what.coleyer == PlayerColor.Any);
+        }
+
+        public bool CanEyenteract() => CanEyenteract(currentEyenteractable);
+
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (context.performed && !_animator.GetBool(IsInteracting))
+            if (context.performed && !_animator.GetBool(IsInteracting) && CanEyenteract())
             {
                 _animator.SetTrigger(Interact);
             }
@@ -163,9 +177,7 @@ namespace Controller
 
         public void OnInteractCenter()
         {
-            if (currentEyenteractable != null &&
-                currentEyenteractable.isEyenteractable &&
-                (currentEyenteractable.coleyer == coleyer || currentEyenteractable.coleyer == ""))
+            if (CanEyenteract())
             {
                 currentEyenteractable.Eyenteract(gameObject);
             }
