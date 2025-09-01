@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2850378790554171404}
   - component: {fileID: 2869784028985320870}
   m_Layer: 0
-  m_Name: Doeyer
+  m_Name: Doeyer 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
