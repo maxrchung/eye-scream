@@ -133,6 +133,8 @@ namespace Controller
             var eyenteractable = other.GetComponent<Eyenteractable>();
             if (CanEyenteract(eyenteractable))
             {
+                var prompt = eyenteractable.GetComponentInChildren<InteractPrompt>();
+                prompt?.Show(_activeCamera);
                 currentEyenteractable = eyenteractable;
             }
         }
@@ -141,6 +143,8 @@ namespace Controller
         {
             if (other.GetComponent<Eyenteractable>() == currentEyenteractable)
             {
+                var prompt = currentEyenteractable.GetComponentInChildren<InteractPrompt>();
+                prompt?.Hide();
                 currentEyenteractable = null;
             }
         }
@@ -158,6 +162,8 @@ namespace Controller
             if (context.performed && !_animator.GetBool(IsInteracting) && CanEyenteract())
             {
                 _animator.SetTrigger(Interact);
+                var prompt = currentEyenteractable.GetComponentInChildren<InteractPrompt>();
+                prompt?.Hide();
             }
         }
 
