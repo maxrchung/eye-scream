@@ -37,20 +37,14 @@ namespace Controller
                 var renderer = renderers[0];
 
                 var materials = renderer.materials;
-                Array.Resize(ref materials, 2);
-
-                overlay = new Material(Shader.Find("Unlit/Color"));
-
-                overlay.color = color switch
+                materials[0].SetColor("emissiveFactor", color switch
                 {
-                    PlayerColor.Red => Color.red,
-                    PlayerColor.Green => Color.green,
-                    PlayerColor.Blue => Color.blue,
-                    PlayerColor.Purple => Color.purple,
-                    _ => Color.clear
-                };
-
-                materials[1] = overlay;
+                    PlayerColor.Red => Color.red * 0.2f,
+                    PlayerColor.Green => Color.green * 0.2f,
+                    PlayerColor.Blue => Color.blue * 0.2f,
+                    PlayerColor.Purple => Color.purple * 0.2f,
+                    _ => Color.white
+                });
                 renderer.materials = materials;
             }
         }
