@@ -52,32 +52,27 @@ public abstract class Eyenteractable : MonoBehaviour
         {
             var renderer = renderers[0];
 
-            var materials = renderer.materials;
-            Array.Resize(ref materials, 2);
-
-            overlay = new Material(Shader.Find("Unlit/Color"));
-
+            overlay = renderer.materials[0];
             SetColor();
-
-            materials[1] = overlay;
-            renderer.materials = materials;
         }
     }
 
     protected void SetColor()
     {
-        overlay.color = coleyer switch
+        var color = coleyer switch
         {
             PlayerColor.Red => Color.red,
             PlayerColor.Green => Color.green,
             PlayerColor.Blue => Color.blue,
             PlayerColor.Purple => Color.purple,
-            _ => Color.clear
+            _ => Color.black
         };
+        overlay.SetColor("emissiveFactor", color * 0.2f);
     }
 
     protected void RemoveColor()
     {
         overlay.color = Color.clear;
+        overlay.SetColor("emissiveFactor", Color.black);
     }
 }
