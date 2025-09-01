@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Config;
 using Interfaces;
+using Types;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -9,18 +10,8 @@ using UnityEngine.Rendering.Universal;
 
 namespace Controller
 {
-    public enum CameraPlayerNumber
-    {
-        NoPlayer,
-        RedPlayer,
-        GreenPlayer,
-        BluePlayer,
-        PurplePlayer,
-    }
-
     public class GameplayCamera : MonoBehaviour, InputActions.ICameraActions
     {
-        public CameraPlayerNumber playerNumber = CameraPlayerNumber.NoPlayer;
         public CharaController character;
 
         private float _pitch;
@@ -29,13 +20,36 @@ namespace Controller
         private bool _wasGamepad = false;
         private Vector2 _gamepadVector = Vector2.zero;
         private Camera cam;
-        
+        private Color _fogColor;
+        public Color FogColor => _fogColor;
+        private Color _originalFogColor;
+        private bool _originalFogEnabled;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Start()
         {
             _pitch = transform.eulerAngles.x;
             _yaw = transform.eulerAngles.y;
             cam = GetComponent<Camera>();
+
+            if (character != null)
+            {
+                _fogColor = character.color switch
+                {
+                    PlayerColor.Red => Color.indianRed * 0.5f,
+                    PlayerColor.Green => Color.lightGreen * 0.5f,
+                    PlayerColor.Blue => Color.skyBlue * 0.5f,
+                    PlayerColor.Purple => Color.mediumPurple * 0.5f,
+                    _ => Color.gray3
+                };
+            }
+            else
+            {
+                _fogColor = Color.gray3;
+            }
+
+            _originalFogColor = RenderSettings.fogColor;
+            _originalFogEnabled = RenderSettings.fog;
         }
 
         private void Update()
@@ -43,6 +57,38 @@ namespace Controller
             if (_wasGamepad)
             {
                 OnCameraMove(_gamepadVector * Time.deltaTime);
+            }
+        }
+
+        private void OnEnable()
+        {
+            RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
+            RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
+        }
+
+        private void OnDisable()
+        {
+            RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
+            RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+        }
+
+        private void OnBeginCameraRendering(ScriptableRenderContext context, Camera renderingCamera)
+        {
+            // Only apply fog color if this is our camera
+            if (renderingCamera == cam)
+            {
+                RenderSettings.fogColor = _fogColor;
+                RenderSettings.fog = true; // Ensure fog is enabled
+            }
+        }
+
+        private void OnEndCameraRendering(ScriptableRenderContext context, Camera renderingCamera)
+        {
+            // Restore original fog settings after our camera is done
+            if (renderingCamera == cam)
+            {
+                RenderSettings.fogColor = _originalFogColor;
+                RenderSettings.fog = _originalFogEnabled;
             }
         }
 
@@ -64,6 +110,7 @@ namespace Controller
             var zoomFactor = cam.fieldOfView / 60.0f;
             _pitch -= input.y * zoomFactor;
             _yaw += input.x * zoomFactor;
+            _pitch = Mathf.Clamp(_pitch, 25f, 60f);
             transform.eulerAngles = new Vector3(_pitch, _yaw, 0.0f);
         }
 

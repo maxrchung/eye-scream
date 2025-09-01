@@ -10,7 +10,7 @@ using Utils;
 
 namespace Controller
 {
-    public class CameraLayoutController : MonoBehaviour, InputActions.IUIActions
+    public class CameraLayoutController : MonoBehaviour, InputActions.IOverseerActions
     {
         private class SavedCamera
         {
@@ -44,35 +44,12 @@ namespace Controller
 
         public Color defaultBorderColor = Color.white;
 
-        public Color borderColorPlayerRed = Color.red;
-        public Color borderColorPlayerGreen = Color.green;
-        public Color borderColorPlayerBlue = Color.blue;
-        public Color borderColorPlayerPurple = new(0.5f, 0f, 0.5f);
-
-        public Color GetPlayerColor(CameraPlayerNumber playerNumber)
-        {
-            switch (playerNumber)
-            {
-                case CameraPlayerNumber.RedPlayer:
-                    return borderColorPlayerRed;
-                case CameraPlayerNumber.GreenPlayer:
-                    return borderColorPlayerGreen;
-                case CameraPlayerNumber.BluePlayer:
-                    return borderColorPlayerBlue;
-                case CameraPlayerNumber.PurplePlayer:
-                    return borderColorPlayerPurple;
-                case CameraPlayerNumber.NoPlayer:
-                default:
-                    return defaultBorderColor;
-            }
-        }
-
         private void Start()
         {
             _cameras = FindCameras();
             _rowCount = Mathf.CeilToInt(Mathf.Sqrt(_cameras.Count));
             _inputActions = new InputActions();
-            _inputActions.UI.AddCallbacks(this);
+            _inputActions.Overseer.AddCallbacks(this);
             _inputActions.Enable();
             _ru = new RenderUtils();
             LayoutAllGrid();
@@ -86,7 +63,7 @@ namespace Controller
                 _activeCamera = null;
             }
 
-            _inputActions.UI.RemoveCallbacks(this);
+            _inputActions.Overseer.RemoveCallbacks(this);
             _inputActions.Disable();
         }
 
@@ -112,7 +89,7 @@ namespace Controller
         {
         }
 
-        void InputActions.IUIActions.OnSelect(InputAction.CallbackContext context)
+        public void OnSelect(InputAction.CallbackContext context)
         {
             if (InSingleMode) return;
             var selectedCam = _cameras.FirstOrDefault(cam => cam.Position == _selectedCamera);
@@ -129,12 +106,7 @@ namespace Controller
         {
         }
 
-        void InputActions.IUIActions.OnBack(InputAction.CallbackContext context)
-        {
-            OnBack(context);
-        }
-
-        private void OnBack(InputAction.CallbackContext ctx)
+        public void OnBack(InputAction.CallbackContext ctx)
         {
             if (!InSingleMode) return;
             LayoutAllGrid();
@@ -219,16 +191,14 @@ namespace Controller
             if (InSingleMode) return;
             foreach (var cam in _cameras)
             {
-                var color = GetPlayerColor(cam.Ctl.playerNumber);
                 var screenRect = _ru.NormToScreen(cam.Cam.rect);
-                color.a = overlayOpacity;
                 var borderColor = Color.gray1;
                 if (cam.Position == _selectedCamera)
-                    borderColor = Color.yellow;
+                    borderColor = Color.white;
                 _ru.DrawRectOutline(
                     screenRect,
                     borderColor,
-                    _ru.PercentToPixels(2));
+                    _ru.PercentToPixels(4));
             }
         }
     }
