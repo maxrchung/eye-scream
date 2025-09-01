@@ -219,11 +219,11 @@ namespace Controller
                 color.a = overlayOpacity;
                 var borderColor = Color.gray1;
                 if (cam.Position == _selectedCamera)
-                    borderColor = Color.yellow;
+                    borderColor = Color.white;
                 _ru.DrawRectOutline(
                     screenRect,
                     borderColor,
-                    _ru.PercentToPixels(2));
+                    _ru.PercentToPixels(4));
             }
         }
     }
