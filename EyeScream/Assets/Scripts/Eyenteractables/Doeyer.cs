@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Doeyer : MonoBehaviour
+public class Doeyer : Eyenteractable
 {
     public int maxCount = 3;
     public float riseHeight = 3f;      // how far up the door rises
@@ -22,7 +22,7 @@ public class Doeyer : MonoBehaviour
 
     }
 
-    public void IncrementCount()
+    public override void Eyenteract(GameObject initiator)
     {
         if (isOpened)
         {
@@ -38,12 +38,6 @@ public class Doeyer : MonoBehaviour
             StartCoroutine(MoveDoeyer());
         }
     }
-
-    public void DecrementCount()
-    {
-        count--;
-    }
-
     IEnumerator MoveDoeyer()
     {
         Vector3 startPos = transform.position;
@@ -56,5 +50,10 @@ public class Doeyer : MonoBehaviour
             transform.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
         }
+    }
+
+    public override void Uneyenteract()
+    {
+        count--;
     }
 }

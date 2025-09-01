@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MyButton : Eyenteractable
 {
+    public Doeyer door;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,5 +19,8 @@ public class MyButton : Eyenteractable
     public override void Eyenteract(GameObject initiator)
     {
         Debug.Log("MyButton eyenteracted!!!");
+
+        door.Eyenteract(initiator);
+        isEyenteractable = false;
     }
 }

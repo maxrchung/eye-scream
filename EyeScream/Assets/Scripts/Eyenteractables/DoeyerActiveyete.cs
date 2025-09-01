@@ -24,7 +24,7 @@ public class DoeyerActiveyete : Eyenteractable
         {
             Debug.Log("Doeyer Activeyete !!!");
 
-            doeyer.IncrementCount();
+            doeyer.Eyenteract(characteyer.gameObject);
         }
     }
     void OnTriggerExit(Collider other)
@@ -32,7 +32,7 @@ public class DoeyerActiveyete : Eyenteractable
         var characteyer = other.GetComponent<CharaController>();
         if (characteyer != null && characteyer.coleyer == coleyer)
         {
-            doeyer.DecrementCount();
+            doeyer.Uneyenteract();
         }
     }
 }
