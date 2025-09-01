@@ -39,14 +39,18 @@ namespace Controller
                 var materials = renderer.materials;
                 materials[0].SetColor("emissiveFactor", color switch
                 {
-                    PlayerColor.Red => Color.red * 0.2f,
-                    PlayerColor.Green => Color.green * 0.2f,
-                    PlayerColor.Blue => Color.blue * 0.2f,
-                    PlayerColor.Purple => Color.purple * 0.2f,
+                    PlayerColor.Red => Color.red * 0.1f,
+                    PlayerColor.Green => Color.green * 0.1f,
+                    PlayerColor.Blue => Color.blue * 0.1f,
+                    PlayerColor.Purple => Color.purple * 0.1f,
                     _ => Color.white
                 });
                 renderer.materials = materials;
             }
+
+            var keyInteractable = keyOnChar.GetComponentInChildren<Renderer>();
+            keyInteractable.materials[0]
+                .SetColor("emissiveFactor", renderers[0].materials[0].GetColor("emissiveFactor"));
         }
 
         private void Start()
