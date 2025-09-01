@@ -45,6 +45,7 @@ namespace Controller
                     PlayerColor.Purple => Color.purple * 0.1f,
                     _ => Color.white
                 });
+                materials[0].SetColor("baseColorFactor", Color.gray2);
                 renderer.materials = materials;
             }
 
