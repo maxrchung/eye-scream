@@ -7,6 +7,8 @@ public class Leyeveyer : Eyenteractable
 
     private float direction = 1;
 
+    public Eyenteractable eyenteractable;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,10 +23,10 @@ public class Leyeveyer : Eyenteractable
 
     public override void Eyenteract(GameObject initiator)
     {
-        StartCoroutine(Rotate());
+        StartCoroutine(Rotate(initiator));
     }
 
-    private IEnumerator Rotate()
+    private IEnumerator Rotate(GameObject initiator)
     {
         Debug.Log("Lever activeyeted !!!");
 
@@ -43,6 +45,15 @@ public class Leyeveyer : Eyenteractable
 
         // Snap to final rotation to avoid precision errors
         transform.rotation = endRotation;
+
+        if (direction > 1)
+        {
+            eyenteractable.Eyenteract(initiator);
+        }
+        else
+        {
+            eyenteractable.Uneyenteract();
+        }
 
         direction = -direction;
         isEyenteractable = true;
