@@ -44,29 +44,6 @@ namespace Controller
 
         public Color defaultBorderColor = Color.white;
 
-        public Color borderColorPlayerRed = Color.red;
-        public Color borderColorPlayerGreen = Color.green;
-        public Color borderColorPlayerBlue = Color.blue;
-        public Color borderColorPlayerPurple = new(0.5f, 0f, 0.5f);
-
-        public Color GetPlayerColor(CameraPlayerNumber playerNumber)
-        {
-            switch (playerNumber)
-            {
-                case CameraPlayerNumber.RedPlayer:
-                    return borderColorPlayerRed;
-                case CameraPlayerNumber.GreenPlayer:
-                    return borderColorPlayerGreen;
-                case CameraPlayerNumber.BluePlayer:
-                    return borderColorPlayerBlue;
-                case CameraPlayerNumber.PurplePlayer:
-                    return borderColorPlayerPurple;
-                case CameraPlayerNumber.NoPlayer:
-                default:
-                    return defaultBorderColor;
-            }
-        }
-
         private void Start()
         {
             _cameras = FindCameras();
@@ -214,9 +191,7 @@ namespace Controller
             if (InSingleMode) return;
             foreach (var cam in _cameras)
             {
-                var color = GetPlayerColor(cam.Ctl.playerNumber);
                 var screenRect = _ru.NormToScreen(cam.Cam.rect);
-                color.a = overlayOpacity;
                 var borderColor = Color.gray1;
                 if (cam.Position == _selectedCamera)
                     borderColor = Color.white;

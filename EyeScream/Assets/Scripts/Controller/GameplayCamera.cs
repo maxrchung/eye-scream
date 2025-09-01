@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Config;
 using Interfaces;
+using Types;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -9,18 +10,8 @@ using UnityEngine.Rendering.Universal;
 
 namespace Controller
 {
-    public enum CameraPlayerNumber
-    {
-        NoPlayer,
-        RedPlayer,
-        GreenPlayer,
-        BluePlayer,
-        PurplePlayer,
-    }
-
     public class GameplayCamera : MonoBehaviour, InputActions.ICameraActions
     {
-        public CameraPlayerNumber playerNumber = CameraPlayerNumber.NoPlayer;
         public CharaController character;
 
         private float _pitch;
@@ -41,14 +32,21 @@ namespace Controller
             _yaw = transform.eulerAngles.y;
             cam = GetComponent<Camera>();
 
-            _fogColor = playerNumber switch
+            if (character != null)
             {
-                CameraPlayerNumber.RedPlayer => Color.indianRed * 0.5f,
-                CameraPlayerNumber.GreenPlayer => Color.lightGreen * 0.5f,
-                CameraPlayerNumber.BluePlayer => Color.skyBlue * 0.5f,
-                CameraPlayerNumber.PurplePlayer => Color.mediumPurple * 0.5f,
-                _ => Color.gray3
-            };
+                _fogColor = character.color switch
+                {
+                    PlayerColor.Red => Color.indianRed * 0.5f,
+                    PlayerColor.Green => Color.lightGreen * 0.5f,
+                    PlayerColor.Blue => Color.skyBlue * 0.5f,
+                    PlayerColor.Purple => Color.mediumPurple * 0.5f,
+                    _ => Color.gray3
+                };
+            }
+            else
+            {
+                _fogColor = Color.gray3;
+            }
 
             _originalFogColor = RenderSettings.fogColor;
             _originalFogEnabled = RenderSettings.fog;
@@ -112,6 +110,7 @@ namespace Controller
             var zoomFactor = cam.fieldOfView / 60.0f;
             _pitch -= input.y * zoomFactor;
             _yaw += input.x * zoomFactor;
+            _pitch = Mathf.Clamp(_pitch, 25f, 60f);
             transform.eulerAngles = new Vector3(_pitch, _yaw, 0.0f);
         }
 
