@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DoeyerActiveyete : Eyenteractable
 {
-    public Doeyer doeyer;
+    public Eyenteractable doeyer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

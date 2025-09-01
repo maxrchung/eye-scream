@@ -24,6 +24,7 @@ public class Keyey : Eyenteractable
         if (characteyer != null && !characteyer.HasKeyey())
         {
             characteyer.EquipKeyey();
+            isEyenteractable = false;
             gameObject.SetActive(false);
         }
     }

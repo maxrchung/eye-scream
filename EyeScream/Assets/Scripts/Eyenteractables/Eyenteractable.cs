@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -30,4 +31,52 @@ public abstract class Eyenteractable : MonoBehaviour
     /// pressure plate, it deactivates the door counter.
     /// </summary>
     public virtual void Uneyenteract() { }
+
+
+    private Material overlay;
+
+    /// <summary>
+    /// Hopefully no one overrides this omegalul
+    /// </summary>
+    protected virtual void Awake()
+    {
+        var renderers = GetComponentsInChildren<Renderer>();
+
+        // Yolo, surely it's the first one
+        if (renderers.Length >= 1)
+        {
+            var renderer = renderers[0];
+
+            var materials = renderer.materials;
+            Array.Resize(ref materials, 2);
+
+            overlay = new Material(Shader.Find("Unlit/Color"));
+
+            if (coleyer == "reyed")
+            {
+                overlay.color = Color.red;
+            }
+            else if (coleyer == "blueye")
+            {
+                overlay.color = Color.blue;
+            }
+            else if (coleyer == "yeyellow")
+            {
+                overlay.color = Color.yellow;
+            }
+            else
+            {
+                overlay.color = Color.clear;
+            }
+
+            materials[1] = overlay;
+            renderer.materials = materials;
+        }
+    }
+
+
+    protected void RemoveColor()
+    {
+        overlay.color = Color.clear;
+    }
 }
