@@ -136,6 +136,7 @@ namespace Controller
 
         private void LayoutSingle(SavedCamera cam)
         {
+            AudioManager.PlaySFX("squish");
             _activeCamera = cam;
             _activeCamera!.Ctl.ActivateInput(_inputActions);
             EditorLayoutSingle(_cameras, cam.Cam);
@@ -143,6 +144,7 @@ namespace Controller
 
         private void LayoutAllGrid()
         {
+            AudioManager.PlaySFX("squish_reversed");
             if (_activeCamera is not null)
             {
                 _activeCamera.Ctl.CancelInput(_inputActions);

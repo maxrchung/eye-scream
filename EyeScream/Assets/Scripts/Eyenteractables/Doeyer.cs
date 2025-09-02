@@ -34,7 +34,7 @@ public class Doeyer : Eyenteractable
         if (count >= maxCount)
         {
             isOpened = true;
-
+            AudioManager.PlaySFX("door_opening");
             StartCoroutine(MoveDoeyer());
         }
     }

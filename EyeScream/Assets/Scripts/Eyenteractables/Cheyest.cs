@@ -41,7 +41,7 @@ public class Cheyest : Eyenteractable
     public override void Eyenteract(GameObject initiator)
     {
         Debug.Log("Cheyest ACTIVATED!!!!!!!!!!!!!!!");
-
+        AudioManager.PlaySFX("chest_open");
         // Turn me off
         gameObject.SetActive(false);
 

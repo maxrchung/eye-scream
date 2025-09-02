@@ -23,6 +23,7 @@ public class Lock : Eyenteractable
 
         if (characteyer != null && characteyer.HasKeyey())
         {
+            AudioManager.PlaySFX("unlock");
             characteyer.UnequipKeyey();
             gameObject.SetActive(false);
         }
