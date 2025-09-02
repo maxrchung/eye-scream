@@ -194,13 +194,14 @@ namespace Controller
             foreach (var cam in _cameras)
             {
                 var screenRect = _ru.NormToScreen(cam.Cam.rect);
-                var borderColor = Color.gray1;
-                if (cam.Position == _selectedCamera)
-                    borderColor = Color.white;
+                var borderColor = cam.Ctl.FogColor;
+                if (cam.Position != _selectedCamera)
+                    borderColor *= 0.3f;
+                borderColor.a = 1.0f;
                 _ru.DrawRectOutline(
                     screenRect,
                     borderColor,
-                    _ru.PercentToPixels(4));
+                    _ru.PercentToPixels(0.5f));
             }
         }
     }

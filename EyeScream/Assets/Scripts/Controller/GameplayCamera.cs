@@ -24,6 +24,7 @@ namespace Controller
         public Color FogColor => _fogColor;
         private Color _originalFogColor;
         private bool _originalFogEnabled;
+        private bool _isActive;
         private float _minYaw;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -38,10 +39,10 @@ namespace Controller
             {
                 _fogColor = character.color switch
                 {
-                    PlayerColor.Red => Color.indianRed * 0.5f,
-                    PlayerColor.Green => Color.lightGreen * 0.5f,
-                    PlayerColor.Blue => Color.skyBlue * 0.5f,
-                    PlayerColor.Purple => Color.mediumPurple * 0.5f,
+                    PlayerColor.Red => Color.red,
+                    PlayerColor.Green => Color.green,
+                    PlayerColor.Blue => Color.blue,
+                    PlayerColor.Purple => Color.purple,
                     _ => Color.gray3
                 };
             }
@@ -79,7 +80,8 @@ namespace Controller
             // Only apply fog color if this is our camera
             if (renderingCamera == cam)
             {
-                RenderSettings.fogColor = _fogColor;
+                RenderSettings.fogColor = _fogColor * (_isActive ? 0.5f : 0.7f);
+                RenderSettings.fogDensity = _isActive ? 0.03f : 0.06f;
                 RenderSettings.fog = true; // Ensure fog is enabled
             }
         }
@@ -97,6 +99,7 @@ namespace Controller
         public void ActivateInput(InputActions actions)
         {
             actions.Camera.AddCallbacks(this);
+            _isActive = true;
             character?.ActivateInput(actions.Player, gameObject);
         }
 
@@ -104,6 +107,7 @@ namespace Controller
         {
             character?.CancelInput(actions.Player);
             actions.Camera.RemoveCallbacks(this);
+            _isActive = false;
             _wasGamepad = false;
         }
 

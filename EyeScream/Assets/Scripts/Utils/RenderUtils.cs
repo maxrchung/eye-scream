@@ -14,7 +14,7 @@ namespace Utils
             normRect.height * Screen.height
         );
 
-        public int PercentToPixels(float percent) => Math.Min(Mathf.RoundToInt(percent / 100 * Screen.width), 1);
+        public int PercentToPixels(float percent) => Math.Max(Mathf.RoundToInt(percent / 100 * Screen.width), 1);
 
         public void DrawRect(Rect rect, Color color)
         {
