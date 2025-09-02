@@ -83,10 +83,15 @@ namespace Controller
             if (move.magnitude > 0.1f)
             {
                 _animator.SetBool(IsMoving, true);
+                if (!gameObject.GetComponent<AudioSource>().isPlaying)
+                {
+                    gameObject.GetComponent<AudioSource>().Play();
+                }
             }
             else
             {
                 _animator.SetBool(IsMoving, false);
+                gameObject.GetComponent<AudioSource>().Stop();
             }
         }
 

@@ -19,7 +19,7 @@ public class MyButton : Eyenteractable
     public override void Eyenteract(GameObject initiator)
     {
         Debug.Log("MyButton eyenteracted!!!");
-        AudioManager.PlaySFX("ping");
+        AudioManager.PlaySFX("beep");
         door.Eyenteract(initiator);
         isEyenteractable = false;
         RemoveColor();
