@@ -80,8 +80,17 @@ namespace Controller
             // Only apply fog color if this is our camera
             if (renderingCamera == cam)
             {
-                RenderSettings.fogColor = _fogColor * (_isActive ? 0.5f : 0.7f);
-                RenderSettings.fogDensity = _isActive ? 0.03f : 0.06f;
+                if (_isActive)
+                {
+                    RenderSettings.fogColor = new Color(0.65f, 0.65f, 0.65f);
+                    RenderSettings.fogDensity = 0.05f;
+                }
+                else
+                {
+                    RenderSettings.fogColor = _fogColor * 0.7f;
+                    RenderSettings.fogDensity = 0.06f;
+                    
+                }
                 RenderSettings.fog = true; // Ensure fog is enabled
             }
         }
