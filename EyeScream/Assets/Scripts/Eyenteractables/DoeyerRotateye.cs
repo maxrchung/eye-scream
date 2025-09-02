@@ -24,6 +24,7 @@ public class DoeyerRotateye : Eyenteractable
 
     private IEnumerator RotateZ90()
     {
+        gameObject.GetComponent<AudioSource>().Play();
         Quaternion startRot = transform.rotation;
         Quaternion endRot = startRot * Quaternion.Euler(0, 0, 90);
 
@@ -42,5 +43,6 @@ public class DoeyerRotateye : Eyenteractable
 
         // Snap to final rotation to avoid floating point errors
         transform.rotation = endRot;
+        gameObject.GetComponent<AudioSource>().Stop();
     }
 }
