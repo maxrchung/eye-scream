@@ -23,6 +23,7 @@ public class ToeyerchOndaGroun : Eyenteractable
 
         if (characteyer != null && !characteyer.HasToeyerch())
         {
+            AudioManager.PlaySFX("torch_lit");
             characteyer.EquipToeyerch();
             gameObject.SetActive(false);
         }

@@ -29,7 +29,7 @@ public class Leyeveyer : Eyenteractable
     private IEnumerator Rotate(GameObject initiator)
     {
         Debug.Log("Lever activeyeted !!!");
-
+        AudioManager.PlaySFX("lever_crank");
         isEyenteractable = false;
 
         Quaternion startRotation = transform.rotation;
