@@ -83,7 +83,7 @@ namespace Controller
                 if (_isActive)
                 {
                     RenderSettings.fogColor = new Color(0.65f, 0.65f, 0.65f);
-                    RenderSettings.fogDensity = 0.05f;
+                    RenderSettings.fogDensity = 0.05f * ((cam.fieldOfView / 60f / 2) + 0.5f);
                 }
                 else
                 {
