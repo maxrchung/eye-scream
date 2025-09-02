@@ -1,0 +1,77 @@
+{
+    "version": 1,
+    "name": "Menu",
+    "maps": [
+        {
+            "name": "menu",
+            "id": "d4a904a0-f923-4e0e-8076-29aff0b4832a",
+            "actions": [
+                {
+                    "name": "next",
+                    "type": "Button",
+                    "id": "388e8b4e-39ac-4f92-80ef-0b8aef982ed6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "prev",
+                    "type": "Button",
+                    "id": "251f5b00-47c6-46fc-a083-45072692c7ad",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "74ed8966-c426-4956-a555-905de49e254f",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e7387651-1c7f-4241-bf73-6a841064ebbb",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b4eedcce-d528-4a10-a3c2-b3c08dccb93d",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "prev",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1e18c240-ee66-459f-bf12-9128154843b5",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "prev",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
