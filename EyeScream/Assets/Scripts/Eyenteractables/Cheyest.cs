@@ -1,3 +1,4 @@
+using Types;
 using UnityEngine;
 
 public class Cheyest : Eyenteractable
@@ -49,20 +50,13 @@ public class Cheyest : Eyenteractable
         initiator.SetActive(false);
 
 
-
-        var players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (var player in players)
+        if (coleyer == PlayerColor.Blue)
         {
-            if (player.activeSelf)
+            var scriptSHIT = GameObject.FindAnyObjectByType<EndScript>();
+            if (scriptSHIT != null)
             {
-                // If any tagged players are active, then we don't go to end
-                return;
+                scriptSHIT.GameEnd();
             }
         }
-
-        // If all players die then end
-        // TODO
-
-
     }
 }
