@@ -30,6 +30,7 @@ namespace Controller
 
         private List<SavedCamera> _cameras = new();
         [CanBeNull] private SavedCamera _activeCamera;
+        [CanBeNull] private SavedCamera _previousCamera;
         private int _rowCount = 0;
         private Vector2Int _selectedCamera = Vector2Int.zero;
 
@@ -44,8 +45,10 @@ namespace Controller
 
         public Color defaultBorderColor = Color.white;
 
+        public GameObject backgroundCamera;
         private void Start()
         {
+            backgroundCamera = GameObject.Find("BackgroundCamera");
             _cameras = FindCameras();
             _rowCount = Mathf.CeilToInt(Mathf.Sqrt(_cameras.Count));
             _inputActions = new InputActions();
@@ -137,6 +140,8 @@ namespace Controller
         private void LayoutSingle(SavedCamera cam)
         {
             _activeCamera = cam;
+            backgroundCamera.GetComponent<AudioListener>().enabled = false;
+            _activeCamera.Cam.gameObject.GetComponent<AudioListener>().enabled = true;
             _activeCamera!.Ctl.ActivateInput(_inputActions);
             EditorLayoutSingle(_cameras, cam.Cam);
         }
@@ -150,6 +155,7 @@ namespace Controller
             }
 
             EditorLayoutGrid(_cameras);
+            backgroundCamera.GetComponent<AudioListener>().enabled = true;
         }
 
         private static void EditorLayoutSingle(List<SavedCamera> cameras, Camera camera)
@@ -168,6 +174,7 @@ namespace Controller
             foreach (var cam in cameras)
             {
                 cam.Cam.enabled = true;
+                cam.Cam.gameObject.GetComponent<AudioListener>().enabled = false;
             }
 
             var cameraCount = cameras.Count;
