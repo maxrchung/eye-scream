@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3652848074465989884}
   - component: {fileID: 6361576768539922731}
   - component: {fileID: 8319941411624072958}
+  - component: {fileID: -7387409973358726028}
   m_Layer: 0
   m_Name: GameplayCamera
   m_TagString: Untagged
@@ -142,3 +143,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameplayCamera
   character: {fileID: 0}
+--- !u!81 &-7387409973358726028
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4728103156386311978}
+  m_Enabled: 0
