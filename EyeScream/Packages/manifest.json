@@ -9,7 +9,6 @@
     "com.unity.test-framework": "1.5.1",
     "com.unity.timeline": "1.8.9",
     "com.unity.ugui": "2.0.0",
-    "org.khronos.unitygltf": "https://github.com/KhronosGroup/UnityGLTF.git",
     "com.unity.web.stripping-tool": "1.1.0",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
@@ -42,6 +41,16 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
-  }
+    "com.unity.modules.xr": "1.0.0",
+    "org.khronos.unitygltf": "2.17.9"
+  },
+  "scopedRegistries": [
+    {
+      "name": "Needle",
+      "url": "https://packages.needle.tools",
+      "scopes": [
+        "org.khronos.unitygltf"
+      ]
+    }
+  ]
 }

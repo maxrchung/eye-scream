@@ -1,10 +1,4 @@
-using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
-using Mono.Cecil;
-using Unity.Collections;
-using Unity.Mathematics;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -69,7 +63,7 @@ public class IntroScript : MonoBehaviour
 
     void MenuPreviousAction(InputAction.CallbackContext obj)
     {
-        if(!input_locked && menu && page > 0 && started)
+        if (!input_locked && menu && page > 0 && started)
             StartCoroutine(TurnInstructionsBackward());
     }
 
@@ -81,7 +75,7 @@ public class IntroScript : MonoBehaviour
             continue_flash.SetActive(!continue_flash.activeSelf);
             yield return new WaitForSeconds(1.25f);
         }
-        
+
     }
 
 
@@ -149,8 +143,8 @@ public class IntroScript : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(blinkMinInterval,blinkMaxInterval));
-            if(!blinking)
+            yield return new WaitForSeconds(UnityEngine.Random.Range(blinkMinInterval, blinkMaxInterval));
+            if (!blinking)
                 StartCoroutine(TitleBlink());
             yield return null;
         }
