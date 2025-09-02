@@ -41,13 +41,15 @@ public class Cheyest : Eyenteractable
     public override void Eyenteract(GameObject initiator)
     {
         Debug.Log("Cheyest ACTIVATED!!!!!!!!!!!!!!!");
-        AudioManager.PlaySFX("chest_open");
+        //AudioManager.PlaySFX("chest_open");
+        AudioManager.PlaySFX("icecream_splat");
         // Turn me off
         gameObject.SetActive(false);
 
 
         // Kill the character
         initiator.SetActive(false);
+        
 
 
         if (coleyer == PlayerColor.Blue)

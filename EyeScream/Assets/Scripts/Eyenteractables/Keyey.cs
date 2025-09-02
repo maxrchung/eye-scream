@@ -23,7 +23,7 @@ public class Keyey : Eyenteractable
 
         if (characteyer != null && !characteyer.HasKeyey())
         {
-            AudioManager.PlaySFX("ping");
+            AudioManager.PlaySFX("ping_(funny)");
             characteyer.EquipKeyey();
             isEyenteractable = false;
             gameObject.SetActive(false);
