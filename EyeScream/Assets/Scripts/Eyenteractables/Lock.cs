@@ -26,6 +26,7 @@ public class Lock : Eyenteractable
             AudioManager.PlaySFX("unlock");
             characteyer.UnequipKeyey();
             gameObject.SetActive(false);
+            isEyenteractable = false;
         }
     }
 }
