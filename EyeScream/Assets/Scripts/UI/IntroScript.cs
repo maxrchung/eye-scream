@@ -7,6 +7,7 @@ using Unity.Mathematics;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class IntroScript : MonoBehaviour
 {
@@ -58,6 +59,10 @@ public class IntroScript : MonoBehaviour
             else if (page < 4)
             {
                 StartCoroutine(TurnInstructionsForward());
+            }
+            else
+            {
+                SceneManager.LoadScene("Room 1");
             }
         }
     }
