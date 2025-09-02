@@ -12,10 +12,6 @@ public class EndScript : MonoBehaviour
     public float blinkMaxInterval = 5;
     bool blinking = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        GameEnd();
-    }
 
     public void GameEnd()
     {
